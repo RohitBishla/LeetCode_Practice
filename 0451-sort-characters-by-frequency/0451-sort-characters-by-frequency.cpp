@@ -10,14 +10,14 @@ public:
             pq.push({it.second, it.first});
         }
         map.erase(map.begin(), map.end());
-        s = "";
+        string ans = "";
         while(!pq.empty()){
             pair<int, char> p = pq.top();
             pq.pop();
             for(int i = 0; i < p.first; i++){
-                s += p.second;
+                ans += p.second;
             }
         }
-        return s;
+        return ans;
     }
 };
