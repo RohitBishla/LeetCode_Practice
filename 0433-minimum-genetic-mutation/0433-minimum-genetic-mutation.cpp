@@ -34,7 +34,7 @@ class Solution {
     //     return ans;
     // }
 public:
-    int minMutation(string start, string end, vector<string>& bank) {
+    int minMutation(string &start, string &end, vector<string>& bank) {
         unordered_map<string, int> map;
         for(int i = 0; i < bank.size(); i++){
             map[bank[i]] = 1;
