@@ -25,7 +25,7 @@ class Solution{
             y = min(y, arr[i] + i);
         }
         int ans = max(a - b, x - y);
-        ans = max(ans, max(b - a, y - x));
+        // ans = max(ans, max(b - a, y - x));
         return ans;
         
     } 
