@@ -16,13 +16,31 @@ class Solution {
         }
         return ans;
     }
+    
+    bool bfs(int i, vector<int> adj[], vector<int>& visited){
+        queue<pair<int, int>> qu;
+        qu.push({i, -1});
+        visited[i] = true;
+        while(!qu.empty()){
+            pair<int, int> p = qu.front();
+            qu.pop();
+            for(auto it: adj[p.first]){
+                if(it == p.second) continue;
+                if(visited[it]) return true;
+                visited[it] = true;
+                qu.push({it, p.first});
+            }
+        }
+    }
   public:
     // Function to detect cycle in an undirected graph.
     bool isCycle(int V, vector<int> adj[]) {
+        
+        
         vector<int> visited(V, 0);
         for(int i = 0; i < V; i++){
             if(!visited[i]){
-                bool flag = dfs(i, -1, adj, visited);
+                bool flag = bfs(i, adj, visited);
                 if(flag) return true;
             }
         }
