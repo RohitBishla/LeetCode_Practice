@@ -42,7 +42,7 @@ class Solution{
         }
         if(b == -1) return dp[i][j] = a;
         if(a == -1) return dp[i][j] = b;
-        return dp[i][j] = min(a, b);
+        return dp[i][j] = a;
     }
     public:
     // 101, 11001, 1111101, 1001110001, 110000110101, 11110100001001 
