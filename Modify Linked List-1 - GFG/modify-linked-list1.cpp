@@ -84,6 +84,7 @@ class Solution{
         // cout << "Done" << endl;
         // return head;
         struct Node* head2 = slow->next;
+        slow->next = NULL;
         struct Node* rev = reverse(head2);
         slow = head;
         fast = rev;
@@ -94,7 +95,7 @@ class Solution{
         }
         // cout << "Done2" << endl;
         slow = reverse(head);
-        // head2->next = slow;
+        head2->next = slow;
         return rev;
     }
 };
