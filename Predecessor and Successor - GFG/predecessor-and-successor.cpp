@@ -41,15 +41,25 @@ class Solution{
     void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
     {
         if(root == NULL) return;
+        // cout << root->key << " " << endl;
         if(root->key > key){
-            if(suc == NULL) suc = root;
-            else if(suc->key > root->key) suc = root;
+            if(suc == NULL || suc->key > root->key){
+                suc = root;
+                findPreSuc(root->left, pre, suc, key);
+            }
+
         }
         if(root->key < key){
-            if(pre == NULL || pre->key < root->key) pre = root;
+            if(pre == NULL || pre->key < root->key){
+                pre = root;
+                findPreSuc(root->right, pre, suc, key);
+            }
         }
-        findPreSuc(root->left, pre, suc, key);
-        findPreSuc(root->right, pre, suc, key);
+        if(root->key == key){
+            findPreSuc(root->left, pre, suc, key);
+            findPreSuc(root->right, pre, suc, key);
+        }
+        
     }
 };
 
