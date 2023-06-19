@@ -9,30 +9,31 @@ using namespace std;
 // User function Template for C++
 
 class Solution {
-    bool dfs(int i, vector<int>& pathVisited, vector<int>& visited, vector<int> adj[]){
-        if(pathVisited[i]) return true;
-        if(visited[i]) return false;
-        visited[i] = 1;
-        pathVisited[i] = 1;
-        for(auto it: adj[i]){
-            if(dfs(it, pathVisited, visited, adj)) return true;
-        }
-        pathVisited[i] = 0;
-        return false;
-    }
   public:
     vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
-        vector<int> visited(V, 0);
-        vector<int> pathVisited(V, 0);
+        vector<int> indegree(V);
+        vector<vector<int>> revAdj(V);
         for(int i = 0; i < V; i++){
-            if(!visited[i]){
-                dfs(i, pathVisited, visited, adj);
+            indegree[i] = adj[i].size();
+            for(int j = 0; j < adj[i].size(); j++){
+                revAdj[adj[i][j]].push_back(i);
             }
         }
-        vector<int> ans;
+        queue<int> qu;
         for(int i = 0; i < V; i++){
-            if(pathVisited[i] == 0) ans.push_back(i);
+            if(indegree[i] == 0) qu.push(i);
         }
+        vector<int> ans;
+        while(!qu.empty()){
+            int node = qu.front();
+            qu.pop();
+            ans.push_back(node);
+            for(auto it: revAdj[node]){
+                indegree[it]--;
+                if(indegree[it] == 0) qu.push(it);
+            }
+        }
+        sort(ans.begin(), ans.end());
         return ans;
     }
 };
