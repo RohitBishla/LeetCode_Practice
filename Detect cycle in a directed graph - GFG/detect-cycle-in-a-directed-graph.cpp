@@ -4,45 +4,31 @@ using namespace std;
 
 // } Driver Code Ends
 class Solution {
-    bool dfs(int i, int p, vector<int> adj[], vector<int>& visited, vector<int>& pathVisited){
-        visited[i] = 1;
-        pathVisited[i] = 1;
-        for(auto it: adj[i]){
-            // if(it == p) continue;
-            // cout << i << ", " << it << " --- " << pathVisited[it] << endl;
-            if(pathVisited[it]) return true;
-            if(!visited[it]){ 
-                bool temp = dfs(it, i, adj, visited, pathVisited);
-            if(temp) return true;
-                // pathVisited[i] = 0;
-                // return false;
-            }
-            
-        }
-        pathVisited[i] = 0;
-        return false;
-    }
-    // 3-2-1-4-5-
   public:
     // Function to detect cycle in a directed graph.
     bool isCyclic(int V, vector<int> adj[]) {
-        // for(int i = 0; i < V; i++){
-        //     for(int j = 0; j < adj[i].size(); j++) cout << adj[i][j] << " ";
-        //     cout << endl;
-        // }
-        // 5-3-1-2-4-0
-        vector<int> visited(V);
-        vector<int> pathVisited(V, 0);
+        queue<int> qu;
+        vector<int> indegree(V);
         for(int i = 0; i < V; i++){
-            if(!visited[i]){
-                // for(int j = 0; j < V; j++) cout << pathVisited[j] << " ";
-                // cout << endl;
-                bool flag = dfs(i, -1, adj, visited, pathVisited);
-                // cout << i << " " << flag << endl;
-                if(flag) return true;
+            for(int j = 0; j < adj[i].size(); j++){
+                indegree[adj[i][j]]++;
             }
         }
-        return false;
+        for(int i = 0; i < V; i++){
+            if(indegree[i] == 0) qu.push(i);
+        }
+        vector<int> top;
+        while(!qu.empty()){
+            int node = qu.front();
+            qu.pop();
+            top.push_back(node);
+            for(int i = 0; i < adj[node].size(); i++){
+                indegree[adj[node][i]]--;
+                if(indegree[adj[node][i]] == 0) qu.push(adj[node][i]);
+            }
+        }
+        if(top.size() == V) return false;
+        return true;
     }
 };
 
