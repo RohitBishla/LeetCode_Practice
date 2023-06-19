@@ -7,30 +7,27 @@ using namespace std;
     
 
 class Solution{
-    void dfs(int i, long long arr[], vector<long long>& temp){
-        if(temp[i] == 0) return;
-        temp[i] = 0;
-        long long t = arr[arr[i]];
-        dfs(arr[i], arr, temp);
-        arr[i] = t;
-    }
     public:
     // arr: input array
     // n: size of array
     //Function to rearrange an array so that arr[i] becomes arr[arr[i]]
     //with O(1) extra space.
     void arrange(long long arr[], int n) {
-        vector<long long> temp(n, -1);
-        // for(int i = 0; i < n; i++) temp[i] = -1*(arr[i] + 1);
+        int size = 17;
+        long long val = (1 << size) - 1;
         for(int i = 0; i < n; i++){
-            if(temp[i] == -1){
-                dfs(i, arr, temp);
-            }
+            long long temp = (arr[arr[i]] & val);
+            temp <<= size;
+            arr[i] |= temp;
         }
+        // 11 <<= 2 => 1100,
+        // 1100 >>= 2  11
+        for(int i = 0; i < n; i++){
+            arr[i] >>= size;
+        }
+        
     }
 };
-
-// 0 2 1
 
 
 //{ Driver Code Starts.
