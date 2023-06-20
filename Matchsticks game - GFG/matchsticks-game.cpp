@@ -1,0 +1,32 @@
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution {
+    // pair<bool, int> helper(int i, int N){
+    //     if(i == N) return true;
+    // }
+  public:
+    int matchGame(long long N) {
+        if(N%5 == 0) return -1;
+        return N%5;
+        // pair<bool, int> helper(0, N);
+    }
+};
+
+//{ Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        long long N;
+        
+        cin>>N;
+
+        Solution ob;
+        cout << ob.matchGame(N) << endl;
+    }
+    return 0;
+}
+// } Driver Code Ends
