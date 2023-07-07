@@ -22,6 +22,11 @@ struct Job
     int profit; // Profit if job is over before or on deadline 
 };
 */
+bool comp(Job& a, Job& b){
+    if(a.profit > b.profit) return true;
+    if(a.profit == b.profit) return false;
+    return false;
+}
 
 class Solution 
 {
@@ -29,36 +34,35 @@ class Solution
     //Function to find the maximum profit and the number of jobs done.
     vector<int> JobScheduling(Job arr[], int n) 
     { 
+        sort(arr, arr + n, comp);
+        int maxi = 0;
+        for(int i = 0; i < n; i++){
+            maxi = max(maxi, arr[i].dead);
+        }
+        vector<int> temp(maxi + 1, -1);
         int count = 0;
         int summ = 0;
-        priority_queue<pair<int, int>> pq;
         for(int i = 0; i < n; i++){
-            pq.push({arr[i].profit, arr[i].dead});
-        }
-        unordered_map<int, int> map;
-        for(int ii = 0; ii < n; ii++){
-            pair<int, int> temp = pq.top();
-            pq.pop();
-            int i = temp.second;
-            while(i > 0 && map.count(i)){
-                i--;
-                // cout << map.count(i) << endl;
-            }
-            if(i > 0){
-                map[i] = 1;
-                count++;
-                summ += temp.first;
+            for(int j = arr[i].dead; j > 0; j--){
+                if(temp[j] == -1){
+                    count++;
+                    summ += arr[i].profit;
+                    temp[j] = arr[i].id;
+                    break;
+                }
             }
         }
         return {count, summ};
     } 
 };
 
+
+
 //{ Driver Code Starts.
 // Driver program to test methods 
 int main() 
 { 
-    int t;
+    int t = 1;
     //testcases
     cin >> t;
     
