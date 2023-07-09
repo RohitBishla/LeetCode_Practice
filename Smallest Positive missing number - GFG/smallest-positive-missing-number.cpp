@@ -12,11 +12,8 @@ class Solution
     int missingNumber(int arr[], int n) 
     { 
         for(int i = 0; i < n; i++){
-            int val = arr[i];
-            while(val <= n && val > 0 && arr[i] != i + 1){
+            while(arr[i] <= n && arr[i] > 0 && arr[i] != arr[arr[i] - 1]){
                 swap(arr[i], arr[arr[i] - 1]);
-                if(arr[i] == val) break;
-                val = arr[i];
             }
         }
         for(int i = 0; i < n; i++){
