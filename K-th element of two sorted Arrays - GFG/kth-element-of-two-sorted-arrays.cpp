@@ -7,22 +7,40 @@ using namespace std;
 class Solution{
     public:
     int kthElement(int arr1[], int arr2[], int n, int m, int k){
-        int i = 0;
-        int j = n - 1;
-        k--;
-        while(i <= j){
-            int mid = (i + j)/2;
-            int index = mid + lower_bound(arr2, arr2 + m, arr1[mid]) - arr2;
-            int index2 = mid + upper_bound(arr2, arr2 + m, arr1[mid]) - arr2;
-            if(index <= k && index2 >= k){
-                return arr1[mid];
+        int left = 0;
+        int right = n;
+        while(left <= right){
+            int mid = (left + right)/2;
+            if(mid > k){
+                right = mid - 1;
+                continue;
             }
-            if(index2 < k){
-                i = mid + 1;
+            int rem = k - mid;
+            if(rem > m){
+                left = mid + 1;
+                continue;
             }
-            else j = mid - 1;
+            int mini1 = INT_MIN;
+            int mini2 = INT_MIN;
+            if(mid - 1 >= 0) mini1 = arr1[mid - 1];
+            if(rem - 1 >= 0) mini2 = arr2[rem - 1];
+            int maxi1 = INT_MAX;
+            int maxi2 = INT_MAX;
+            if(mid < n) maxi1 = arr1[mid];
+            if(rem < m) maxi2 = arr2[rem];
+            int leftMax = max(mini1, mini2);
+            int rightMin = min(maxi1, maxi2);
+            if(leftMax <= rightMin){
+                return leftMax;
+            }
+            else{
+                if(leftMax == mini2){
+                    left = mid + 1;
+                }
+                else right = mid - 1;
+            }
         }
-        return kthElement(arr2, arr1, m, n, k + 1);
+        return -1;
     }
 };
 
