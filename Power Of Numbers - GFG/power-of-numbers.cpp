@@ -8,11 +8,14 @@ class Solution{
     int mod = 1e9 + 7;
     public:
     
-    long long power(int N,int R){
-        if(R == 0) return 1;
-        long long ans = power(N, R/2);
-        ans = (ans*ans)%mod;
-        if(R%2) ans = (ans*N)%mod;
+    long long power(long long int N,int R){
+        long long ans = 1;
+        long long temp = N;
+        while(R){
+            if(R&1) ans = (ans*N)%mod;
+            N = (N*N)%mod;
+            R >>= 1;
+        }
         return ans;
     }
 
