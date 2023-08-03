@@ -7,39 +7,31 @@ using namespace std;
 // } Driver Code Ends
 // User function Template for C++
 class Solution {
-    void dfs(int i, vector<vector<pair<int, int>>>& adj, vector<int>& visited, stack<int>& st){
-        if(visited[i]) return;
-        visited[i] = 1;
-        for(auto it: adj[i]) dfs(it.first, adj, visited, st);
-        st.push(i);
-    }
-    
   public:
      vector<int> shortestPath(int N,int M, vector<vector<int>>& edges){
+        vector<int> dis(N, INT_MAX);
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> qu;
         vector<vector<pair<int, int>>> adj(N);
         for(int i = 0; i < M; i++){
             adj[edges[i][0]].push_back({edges[i][1], edges[i][2]});
         }
-        stack<int> st;
-        vector<int> visited(N);
-        for(int i = 0; i < N; i++){
-            if(!visited[i]) dfs(i, adj, visited, st);
-        }
-        vector<int> ans(N, INT_MAX);
-        ans[0] = 0;
-        while(!st.empty()){
-            int top = st.top();
-            st.pop();
-            if(ans[top] == INT_MAX) continue;
-            for(auto it: adj[top]){
-                ans[it.first] = min(ans[it.first], ans[top] + it.second);
+        dis[0] = 0;
+        qu.push({0, 0});
+        while(!qu.empty()){
+            pair<int, int> p = qu.top();
+            qu.pop();
+            for(auto it: adj[p.second]){
+                int cost = it.second + p.first;
+                if(dis[it.first] > cost){
+                    dis[it.first] = cost;
+                    qu.push({cost, it.first});
+                }
             }
         }
-        for(int i = 0; i < N; i++) if(ans[i] == INT_MAX) ans[i] = -1;
-        return ans;
+        for(int i = 0; i < N; i++) if(dis[i] == INT_MAX) dis[i] = -1;
+        return dis;
     }
 };
-
 
 
 //{ Driver Code Starts.
